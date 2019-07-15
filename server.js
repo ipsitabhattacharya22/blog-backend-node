@@ -23,7 +23,7 @@ if (app.get('env') === "production") {
 }
 
 corsoptions = {
-    "origin": ["http://localhost:4200", "https://localhost:4205"],
+    "origin": ["http://localhost:4200", "https://localhost:4200", "http://localhost:4205", "https://localhost:4205"],
     "credentials": true,
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
