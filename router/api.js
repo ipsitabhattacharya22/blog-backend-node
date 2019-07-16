@@ -99,7 +99,7 @@ app.post("/getSelectedBlog", function (request, response) {
 
             }
             if (result.docs && result.docs.length) {
-                response.send(result.docs);
+                response.send(result.docs[0]);
             } else {
                 response.status(404).send({
                     "Error": "Blog Not Found"
