@@ -8,34 +8,43 @@ var moment = require('moment');
 
 
 app.post("/addBlogPost", function (request, response) {
-    var doc = {
-        "blogHeader": request.body.blogHeader,
-        "blogContent": request.body.blogContent,
-        "createdAt": new Date().toISOString(),
-        "totalComments": 0,
-        "comments": []
-    };
-    if (!mydb) {
-        console.log("No database.");
-        response.status(500).send("Database connection is not ready");
-        return;
-    }
+    var blogHeader = request.body.blogHeader;
+    var blogContent = request.body.blogContent;
 
-    // insert the username as a document
-    mydb.insert(doc, function (err, body, header) {
-        if (err) {
-            console.log('[mydb.insert] ', err.message);
-            response.status(500).send("Error in adding blog");
+    if (blogHeader && blogContent) {
+        var doc = {
+            "blogHeader": request.body.blogHeader,
+            "blogContent": request.body.blogContent,
+            "createdAt": new Date().toISOString(),
+            "totalComments": 0,
+            "comments": []
+        };
+        if (!mydb) {
+            console.log("No database.");
+            response.status(500).send("Database connection is not ready");
             return;
         }
-        doc._id = body.id;
-        const res = {
-            "status": "SUCCESS",
-            "_id": doc._id,
-            "message": "Blog created successfully"
-        }
-        response.send(res);
-    });
+
+        // insert the username as a document
+        mydb.insert(doc, function (err, body, header) {
+            if (err) {
+                console.log('[mydb.insert] ', err.message);
+                response.status(500).send("Error in adding blog");
+                return;
+            }
+            doc._id = body.id;
+            const res = {
+                "status": "SUCCESS",
+                "_id": doc._id,
+                "message": "Blog created successfully"
+            }
+            response.send(res);
+        });
+    } else {
+        response.status(400).send({
+            "Error": "Missing parameter"
+        });
+    }
 });
 
 app.get("/getBlogs", function (request, response) {
