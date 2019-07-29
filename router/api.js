@@ -398,7 +398,7 @@ app.post("/updateBlog", (request, response) => {
     }
 });
 
-app.delete("/deleteBlog", (request, response) => {
+app.post("/deleteBlog", (request, response) => {
     var blogId = request.body._id;
     var updatedComments;
     if (blogId) {
